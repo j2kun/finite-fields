@@ -1,3 +1,4 @@
+from __future__ import division
 from test import test
 from fractions import Fraction
 from polynomial import *

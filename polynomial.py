@@ -1,4 +1,7 @@
-import itertools
+try:
+    from itertools import zip_longest
+except ImportError:
+    from itertools import izip_longest as zip_longest
 import fractions
 
 from numbertype import *
@@ -22,7 +25,10 @@ def polynomialsOver(field=fractions.Fraction):
 
    class Polynomial(DomainElement):
       operatorPrecedence = 2
-      factory = lambda L: Polynomial([field(x) for x in L])
+
+      @classmethod
+      def factory(cls, L):
+         return Polynomial([cls.field(x) for x in L])
 
       def __init__(self, c):
          if type(c) is Polynomial:
@@ -61,10 +67,13 @@ def polynomialsOver(field=fractions.Fraction):
       def __eq__(self, other):
          return self.degree() == other.degree() and all([x==y for (x,y) in zip(self, other)])
 
+      @typecheck
+      def __ne__(self, other):
+          return self.degree() != other.degree() or any([x!=y for (x,y) in zip(self, other)])
 
       @typecheck
       def __add__(self, other):
-         newCoefficients = [sum(x) for x in itertools.zip_longest(self, other, fillvalue=self.field(0))]
+         newCoefficients = [sum(x) for x in zip_longest(self, other, fillvalue=self.field(0))]
          return Polynomial(newCoefficients)
 
 

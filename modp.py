@@ -37,6 +37,10 @@ def IntegersModP(p):
          return isinstance(other, IntegerModP) and self.n == other.n
 
       @typecheck
+      def __ne__(self, other):
+         return isinstance(other, IntegerModP) is False or self.n != other.n
+
+      @typecheck
       def __divmod__(self, divisor):
          q,r = divmod(self.n, divisor.n)
          return (IntegerModP(q), IntegerModP(r))
