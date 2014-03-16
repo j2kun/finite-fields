@@ -100,10 +100,10 @@ def FiniteField(p, m, polynomialModulus=None):
             raise ZeroDivisionError
 
          x,y,d = extendedEuclideanAlgorithm(self.poly, self.idealGenerator)
-         if d != Fq(1):
+         if d.degree() != 0:
             raise Exception('Somehow, this element has no inverse! Maybe intialized with a non-prime?')
 
-         return Fq(x)
+         return Fq(x) * Fq(d.coefficients[0].inverse())
 
 
    Fq.__name__ = 'F_{%d^%d}' % (p,m)

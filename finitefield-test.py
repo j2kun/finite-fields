@@ -18,3 +18,11 @@ test(False, isIrreducible(p([1,0,0,1], 11), 11))
 
 
 test(True, isIrreducible(p([-2, 0, 1], 13), 13))
+
+
+Z5 = IntegersModP(5)
+Poly = polynomialsOver(Z5).factory
+f = Poly([3,0,1])
+F25 = FiniteField(5, 2, polynomialModulus=f)
+x = F25([2,1])
+test(Poly([1,2]), x.inverse())

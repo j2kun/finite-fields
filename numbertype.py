@@ -4,10 +4,11 @@
 def memoize(f):
    cache = {}
 
-   def memoizedFunction(*args):
-      if args not in cache:
-         cache[args] = f(*args)
-      return cache[args]
+   def memoizedFunction(*args, **kwargs):
+      argTuple = args + tuple(kwargs)
+      if argTuple not in cache:
+         cache[argTuple] = f(*args, **kwargs)
+      return cache[argTuple]
 
    memoizedFunction.cache = cache
    return memoizedFunction
