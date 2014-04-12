@@ -1,18 +1,21 @@
+
 from euclidean import *
 from numbertype import *
+
+# so all IntegersModP are instances of the same base class
+class _Modular(FieldElement):
+   pass
 
 
 @memoize
 def IntegersModP(p):
    # assume p is prime
 
-   class IntegerModP(FieldElement):
+   class IntegerModP(_Modular):
       def __init__(self, n):
-         if isinstance(n, IntegerModP):
-            self.n = n.n
-         elif isinstance(n, int):
-            self.n = n % IntegerModP.p
-         else:
+         try:
+            self.n = int(n) % IntegerModP.p
+         except:
             raise TypeError("Can't cast type %s to %s in __init__" % (type(n).__name__, type(self).__name__))
 
          self.field = IntegerModP
@@ -63,6 +66,9 @@ def IntegersModP(p):
 
       def __repr__(self):
          return '%d (mod %d)' % (self.n, self.p)
+
+      def __int__(self):
+         return self.n
 
    IntegerModP.p = p
    IntegerModP.__name__ = 'Z/%d' % (p)
