@@ -83,8 +83,18 @@ def FiniteField(p, m, polynomialModulus=None):
       def __mul__(self, other): return Fq(self.poly * other.poly)
       @typecheck
       def __eq__(self, other): return isinstance(other, Fq) and self.poly == other.poly
-
-      def __pow__(self, n): return Fq(pow(self.poly, n))
+      @typecheck
+      def __ne__(self, other): return not (is instance(other , Fq) and self.poly == other.poly)
+      
+      def __pow__(self, n):
+         if n==0: return Fq([1])
+         if n==1: return self
+         if n%2==0:
+            sqrut = self**(n//2)
+            return sqrut*sqrut
+         if n%2==1: return (self**(n-1))*self
+      
+      #def __pow__(self, n): return Fq(pow(self.poly, n))
       def __neg__(self): return Fq(-self.poly)
       def __abs__(self): return abs(self.poly)
       def __repr__(self): return repr(self.poly) + ' \u2208 ' + self.__class__.__name__
