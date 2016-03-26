@@ -84,7 +84,7 @@ def FiniteField(p, m, polynomialModulus=None):
       @typecheck
       def __eq__(self, other): return isinstance(other, Fq) and self.poly == other.poly
       @typecheck
-      def __ne__(self, other): return not (is instance(other , Fq) and self.poly == other.poly)
+      def __ne__(self, other): return not self == other
       
       def __pow__(self, n):
          if n==0: return Fq([1])
